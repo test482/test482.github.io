@@ -1,13 +1,14 @@
 ---
 title: 利用 Aria2 + Nginx 搭建离线下载
 date: 2019-04-13 19:21:50
+updated: 2019-11-4 17:28:14
 thumbnail: /setup-aria2-and-nginx-for-download/thumbnail.png
 tags: [Aria2,Nginx,Linux]
 ---
 
-最近阿里云又有了一波学生机优惠，~~1核2G 5M带宽 40G SSD，我买爆（~~，就趁机入了一年；买来之后，试着搭建了 [L4D2](https://store.steampowered.com/app/550/Left_4_Dead_2/) 游戏服务器和 [无污染 DNS](https://kirikira.moe/post/23/) 。
+最近阿里云一波学生机优惠，就趁机入了一年；买来之后，试着搭建了 [L4D2](https://store.steampowered.com/app/550/Left_4_Dead_2/) 游戏服务器和 [无污染 DNS](https://kirikira.moe/post/23/) 。
 
-但是觉得还没有榨干 VPS 的用处，于是就 Google 了下『aria2 + nginx 搭建离线下载』，遂有了记录布置过程到这篇博文的想法。
+但是觉得还没有折腾够 VPS，于是就 Google 了下『Aria2 + Nginx 搭建离线下载』，遂有了记录布置过程到这篇博文的想法。
 
 # 安装并配置 Aria2
 
@@ -23,7 +24,7 @@ aria2 最简单的运行方式是 `aria2c <download-url-path>`，即会从给出
 
 aria2 启动时会首先尝试从 `$HOME/.aria2/aria2.conf` 读取配置文件，此处我使用的是 root 用户，那么目录即为 `/root/.aria2/aria2.conf` 。
 
-## Aria2 配置
+## Aria2 配置文件
 
 - 创建配置文件
 
@@ -37,39 +38,38 @@ touch aria2.conf aria2.session dht6.dat dht.dat
 - `nano aria2.conf` 写入以下配置内容
 
 ```text
-#等号后面内容为默认设置，如为空则无默认设置，请自行选取需要更改的添加到你的配置文件中
 #参考自 http://www.senra.me/aria2-conf-file-parameters-translation-and-explanation/comment-page-1/
+
+################################################################################
+### 请自行替换配置内容。使用绝对路径,例如 /root/.aria2/aria2.conf !###
+################################################################################
 
 # 外部访问安全令牌，用于身份验证
 rpc-secret=YOUR_SECRET_KEY
 
 #下载路径
-dir=$HOME/Downloads
+dir=/root/Downloads
 
 #DHT (IPv4) 文件
 #修改 IPv4 DHT 路由表文件路径.
-dht-file-path=$HOME/.aria2/dht.dat
+dht-file-path=/root/.aria2/dht.dat
 
 #DHT (IPv6) 文件
 #修改 IPv6 DHT 路由表文件路径.
-dht-file-path6=$HOME/.aria2/dht6.dat
+dht-file-path6=/root/.aria2/dht6.dat
 
 #配置文件路径
-conf-path=$HOME/.aria2/aria2.conf
+conf-path=/root/.aria2/aria2.conf
 
 #状态保存文件
 #当退出时保存错误及未完成的任务到指定的文件中. 您可以在重启 aria2 时使用 --input-file 选项重新加载. 如果您希望输出的内容使用 GZip 压缩, 您可以在文件名后增加 .gz 扩展名. 请注意, 通过 aria2.addTorrent() 和 aria2.addMetalink() RPC 方法添加的下载, 其元数据没有保存到文件的将不会保存. 通过 aria2.remove() 和 aria2.forceRemove() 删除的下载将不会保存.
-save-session=$HOME/.aria2/aria2.session
+save-session=/root/.aria2/aria2.session
 
 #指定开启时读取会话文件的位置
-input-file=$HOME/.aria2/aria2.session
+input-file=/root/.aria2/aria2.session
 
 #禁用 IPv6
 disable-ipv6=false
-
-################################################################################
-### 请自行替换上面的密码和路径！！！使用绝对路径 例如 /root/.aria2/aria2.conf !!!###
-################################################################################
 
 #最大同时下载数
 max-concurrent-downloads=5
@@ -98,7 +98,7 @@ enable-peer-exchange=true
 
 #最小分享率
 #指定分享率. 当分享率达到此选项设置的值时会完成做种. 强烈建议您将此选项设置为大于等于 1.0. 如果您想不限制分享比率, 可以设置为 0.0. 如果同时设置了 --seed-time 选项, 当任意一个条件满足时将停止做种.
-seed-ratio=5.0
+seed-ratio=1.0
 
 #启用 JSON-RPC/XML-RPC 服务器
 enable-rpc=true
@@ -130,17 +130,15 @@ file-allocation=falloc
 save-session-interval=300
 ```
 
-> 注意修改『外部访问安全令牌』和『下载路径』部分
->
 > 『下载路径』必须是一个存在的目录，aria2 不会去创建这个目录。
 
 aria2 还有一些其他设置项，这里不说了，有兴趣可以看[官方说明文档](https://aria2.github.io/manual/en/html/aria2c.html#aria2-conf)。
 
-在写好配置文件后，若设置了 `daemon=true` ，那么直接运行 `aria2c` 即可在后台运行。
+在写好配置文件后，若设置了 `daemon=true` ，那么直接运行 `aria2c` 也可在后台运行。
 
-## 使用 systemd 管理 Aria2
+## 使用 systemd 管理
 
-`nano /etc/systemd/system/aria2.service` 写入以下内容：
+万物皆可底裤，`nano /etc/systemd/system/aria2.service` 写入以下内容：
 
 ```text
 [Unit]
@@ -174,7 +172,7 @@ cd /var/www/html
 git clone https://github.com/ziahamza/webui-aria2.git
 ```
 
-重启 nginx：`systemctl restart nginx`
+重启 nginx： `systemctl restart nginx`
 
 此时用浏览器访问 `[主机IP地址或域名]/webui-aria2/docs/`，应当能够看到 webui-aria2 的页面。
 
@@ -182,11 +180,13 @@ git clone https://github.com/ziahamza/webui-aria2.git
 
 以上只是配置了 WebUI 调用 aria2 下载文件到 VPS 上，接下来设置文件取回。
 
-你可以使用宝塔面板或者 Pure-Ftpd 来生成 ftp 页面取回文件，这里演示使用 nginx 生成简单 HTTP  文件服务。
+你可以使用 ftp 取回文件，也可以使用其他轻量级 http 服务器应用取回。
+
+这里演示使用 nginx 生成 HTTP  文件服务。
 
 ## Nginx 搭建 HTTP 文件服务
 
-这里使用另一个端口号（8080）做文件服务器，若要访问下载目录，在浏览器输入 `[主机IP地址或域名]:8080` 访问。
+这里使用另一个端口号（7080）做文件服务器，若要访问下载目录，在浏览器输入 `[主机IP地址或域名]:7080` 访问。
 
 - 在 `/etc/nginx/sites-available/` 下新建一个站点配置
 
@@ -199,11 +199,11 @@ touch aria2File # 创建一个名为aria2File的站点配置
 
 ```text
 server {
-        listen 8080 default_server;
-        listen [::]:8080 default_server;
+        listen 7080 default_server;
+        listen [::]:7080 default_server;
         root /root/Downloads;    # 这里使用下载文件夹的绝对路径
         server_name _;
-        auth_basic "Authrization";
+        auth_basic "Authorization needed";
         auth_basic_user_file /var/www/auth/auth4aria2File;  # 设置要求密码登陆
         location / {  # 使nginx自动生成文件列表
                 autoindex on;
@@ -226,7 +226,7 @@ user root;  # 或者其他具有下载文件夹访问权限的用户名称
 
 从而避免因默认的 `www-data` 用户无权访问下载文件夹导致的 403 错误。
 
-## Nginx 配置访问密码
+## 配置访问密码
 
 上面我们在 aria2File 站点配置文件中写了一行 `auth_basic_user_file /var/www/auth/auth4aria2File;  # 设置要求密码登陆` ，所以这里我们在对应位置也要生成一个访问验证文件。
 
@@ -252,6 +252,6 @@ htpasswd -c ./auth4aria2File $USERNAME
 
 这里简述一下：`crontab -e`，添加 `0 0 */4 * * rm -fr /root/Downloads/*` 在文件末尾，意为每隔 4 天清空一次 Download 文件夹。
 
-![登录到 ServerIP:8080 会要求验证](2019-04-13-setup-aria2-and-nginx-for-download/loginInServer8080.jpg)
+![登录到 ServerIP:7080 会要求验证](2019-04-13-setup-aria2-and-nginx-for-download/loginInServer7080.jpg)
 
 输入『Nginx 配置访问密码』时设置的用户名和密码，在这里就可以取回文件了。
