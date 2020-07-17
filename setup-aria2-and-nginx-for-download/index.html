@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+        Version: 1.3.2
+    -->
+    <script>
+window.lsVersion = "1.3.2",
+window.oldVersion = [
+    
+        
+            "0.2.0","0.0.1","0.1.0","1.0.0","1.0.1","1.1.0","1.1.1","1.2.0","1.3.0"
+        
+    
+]
+</script>
+
+    <!-- ### DNS Prefetch ### -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+<!-- busuanzi -->
+
+
+<!-- comment -->
+
+
+    <link rel="dns-prefetch" href="//disqus.com">
+    <link rel="dns-prefetch" href="//eliotsgithubpages.disqus.com">
+
+
+
+
+
+
+<!-- analytics -->
+
+
+    <link rel="dns-prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    <link rel="dns-prefetch" href="//www.google-analytics.com">
+
+
+
+
+
+
+    <!-- ### Preload ### -->
+    
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<!-- Title -->
+<title>利用 Aria2 + Nginx 搭建离线下载 | Eliot&#39;s Blog</title>
+
+<!-- favicon -->
+<!-- Favicons -->
+
+    <link rel="shortcut icon" type="image/ico" href="/img/favicon.ico">
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+
+
+    <link rel="icon" type="image/png" sizes="192x192" href="/img/android-chrome-192x192.png">
+
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+
+
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+
+
+<!-- Android Chrome Color -->
+
+    <meta name="theme-color" content="#fff">
+
+
+
+<meta name="format-detection" content="telephone=no">
+
+<!-- Description -->
+<meta name="description" content="
+最近阿里云一波学生机优惠，就趁机入了一年；买来之后，试着搭建了 ">
+
+<!-- Keywords -->
+<meta name="keywords" content=", Aria2, Nginx, Linux">
+
+<!-- Disable Fucking Bloody Baidu Tranformation -->
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <!-- ### Import File ### -->
+    
+        <!-- spectre.css -->
+
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css">
+
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style>
+
+<!-- style.css -->
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+
+
+
+
+    <!-- Prettify Theme -->
+    
+    
+        <link rel="stylesheet" href="/css/highlight/atom-one-light.min.css">
+    
+
+
+
+    
+
+    <!-- ### Site Verification ### -->
+    
+    <meta name="google-site-verification" content="F4lIwiICu5tABWPv312QRYGKO4A6_M4YSHO1pBNATxQ" />
+
+
+
+    <!-- ### RSS ### -->
+    
+
+    <!-- ### WebApp ### -->
+    <meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="Eliot&#39;s Blog">
+<meta name="msapplication-starturl" content="https://eliotjoking.me">
+
+    <meta name="msapplication-navbutton-color" content="#fff">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Eliot&#39;s Blog">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Manifest Import -->
+
+<!-- Open Search -->
+
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="利用 Aria2 + Nginx 搭建离线下载 | Eliot&#39;s Blog">
+<meta property="og:site_name" content="Eliot&#39;s Blog">
+
+<meta property="og:locale" content="zh-CN">
+
+<meta property="og:url" content="https://eliotjoking.me/setup-aria2-and-nginx-for-download/">
+<meta property="og:image" content="/setup-aria2-and-nginx-for-download/thumbnail.png">
+
+<meta property="og:description" content="
+最近阿里云一波学生机优惠，就趁机入了一年；买来之后，试着搭建了 ">
+
+<meta name="twitter:card" content="summary_large_image">
+
+
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2019-04-13T11:21:50.000Z">
+    <meta property="article:modified_time" content="2019-04-13T11:21:50.000Z">
+    <meta property="article:author" content="Eliot">
+    <meta property="og:article:tag" content=", Aria2, Nginx, Linux"> 
+
+
+
+
+
+    <!-- ### Analytics ### -->
+    
+    <!-- Google Analytics -->
+<script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-124820967-1', 'auto');
+    ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-124820967-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-124820967-1');
+</script>
+
+
+
+
+
+
+
+
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://eliotjoking.me/setup-aria2-and-nginx-for-download/">
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://eliotjoking.me/setup-aria2-and-nginx-for-download/",
+    "@type": "BlogPosting",
+    "logo": "https://eliotjoking.me/img/android-chrome-192x192.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://eliotjoking.me/setup-aria2-and-nginx-for-download/"
+    },
+    "headline": "利用 Aria2 + Nginx 搭建离线下载 | Eliot&#39;s Blog",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://eliotjoking.me/setup-aria2-and-nginx-for-download/thumbnail.png"
+    },
+    
+    "datePublished": "2019-04-13T11:21:50.000Z",
+    "dateModified": "2019-11-26T13:53:58.000Z",
+    "author": {
+        "@type": "Person",
+        "name": "Eliot",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://eliotjoking.me/img/avatar.png"
+        },
+        "description": "Everything that kills me makes me feel alive."
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Eliot&#39;s Blog",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://eliotjoking.me/img/android-chrome-192x192.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://eliotjoking.me/search/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": ", Aria2, Nginx, Linux",
+    "description": "
+最近阿里云一波学生机优惠，就趁机入了一年；买来之后，试着搭建了 "
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+
+
+</head>
+
+    <body>
+        
+
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">Eliot&#39;s Blog</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                Everything that kills me makes me feel alive.
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search/" class="navbar-link">搜索</a>
+    
+    
+        <a href="/links/" class="navbar-link">友链</a>
+    
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    
+    
+
+
+<div class="post-container">
+    <div id="post-card" class="card">
+        
+            <!-- # Post Thumbnail # -->
+            <div class="card-image" style="background-image: url('/setup-aria2-and-nginx-for-download/thumbnail.png');"></div>
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">利用 Aria2 + Nginx 搭建离线下载</h1>
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/img/avatar.png" alt="Eliot's Avatar">
+        <span>2019-04-13</span>
+        
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                            <div id="post-toc">
+                                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#安装并配置-Aria2"><span class="post-toc-number">1.</span> <span class="post-toc-text">安装并配置 Aria2</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Aria2-配置文件"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">Aria2 配置文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用-systemd-管理"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">使用 systemd 管理</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#通过-WebUI-调用-Aria2"><span class="post-toc-number">2.</span> <span class="post-toc-text">通过 WebUI 调用 Aria2</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#取回文件"><span class="post-toc-number">3.</span> <span class="post-toc-text">取回文件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Nginx-搭建-HTTP-文件服务"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">Nginx 搭建 HTTP 文件服务</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#配置访问密码"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">配置访问密码</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#搭建完成"><span class="post-toc-number">4.</span> <span class="post-toc-text">搭建完成</span></a></li></ol>
+                            </div>
+                        
+                    
+                    <article id="post-content">
+                        <blockquote>
+<p>最近阿里云一波学生机优惠，就趁机入了一年；买来之后，试着搭建了 <a href="https://store.steampowered.com/app/550/Left_4_Dead_2/" target="_blank" rel="noopener">L4D2</a> 游戏服务器和 <a href="https://kirikira.moe/post/23/" target="_blank" rel="noopener">无污染 DNS</a> 。</p>
+</blockquote>
+<blockquote>
+<p>但是觉得还没有折腾够 VPS，于是就 Google 了下『Aria2 + Nginx 搭建离线下载』，遂有了记录布置过程到这篇博文的想法。</p>
+</blockquote>
+<p>2019-11-26 更新：如果你对 docker 有所了解的话，可以使用我的 repo <a href="https://github.com/test482/docker-aria2-with-webui" target="_blank" rel="noopener">[docker-aria2-with-webui]</a> 来快速部署。</p>
+<h1 id="安装并配置-Aria2"><a href="#安装并配置-Aria2" class="headerlink" title="安装并配置 Aria2"></a>安装并配置 Aria2</h1><blockquote>
+<p>以 阿里云 Ubuntu 16.04.6 LTS 为例</p>
+</blockquote>
+<ul>
+<li><p>照例先滚一滚系统：<br><code>apt update &amp;&amp; apt upgrade -y</code></p>
+</li>
+<li><p>安装 <a href="https://zh.wikipedia.org/wiki/Aria2" target="_blank" rel="noopener">Aria2</a>：<br><code>apt install aria2</code></p>
+</li>
+</ul>
+<p>aria2 最简单的运行方式是 <code>aria2c &lt;download-url-path&gt;</code>，即会从给出的 url 下载文件。这里需要 aria2 后台驻留并使用 WebUI 调用 aria2 。</p>
+<p>aria2 启动时会首先尝试从 <code>$HOME/.aria2/aria2.conf</code> 读取配置文件，此处我使用的是 root 用户，那么目录即为 <code>/root/.aria2/aria2.conf</code> 。</p>
+<h2 id="Aria2-配置文件"><a href="#Aria2-配置文件" class="headerlink" title="Aria2 配置文件"></a>Aria2 配置文件</h2><ul>
+<li>创建配置文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">mkdir .aria2</span><br><span class="line"><span class="built_in">cd</span> .aria2/</span><br><span class="line">touch aria2.conf aria2.session</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>nano aria2.conf</code> 写入以下配置内容</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">#参考自 http://www.senra.me/aria2-conf-file-parameters-translation-and-explanation/comment-page-1/</span><br><span class="line"></span><br><span class="line">################################################################################</span><br><span class="line">### 请自行替换配置内容。使用绝对路径,例如 /root/.aria2/aria2.conf !###</span><br><span class="line">################################################################################</span><br><span class="line"></span><br><span class="line"># 外部访问安全令牌，用于身份验证</span><br><span class="line">rpc-secret=YOUR_SECRET_KEY</span><br><span class="line"></span><br><span class="line">#下载路径</span><br><span class="line">dir=/root/Downloads</span><br><span class="line"></span><br><span class="line">#配置文件路径</span><br><span class="line">conf-path=/root/.aria2/aria2.conf</span><br><span class="line"></span><br><span class="line">#状态保存文件</span><br><span class="line">#当退出时保存错误及未完成的任务到指定的文件中. 您可以在重启 aria2 时使用 --input-file 选项重新加载. 如果您希望输出的内容使用 GZip 压缩, 您可以在文件名后增加 .gz 扩展名. 请注意, 通过 aria2.addTorrent() 和 aria2.addMetalink() RPC 方法添加的下载, 其元数据没有保存到文件的将不会保存. 通过 aria2.remove() 和 aria2.forceRemove() 删除的下载将不会保存.</span><br><span class="line">save-session=/root/.aria2/aria2.session</span><br><span class="line"></span><br><span class="line">#指定开启时读取会话文件的位置</span><br><span class="line">input-file=/root/.aria2/aria2.session</span><br><span class="line"></span><br><span class="line">#禁用 IPv6</span><br><span class="line">disable-ipv6=false</span><br><span class="line"></span><br><span class="line">#最大同时下载数</span><br><span class="line">max-concurrent-downloads=5</span><br><span class="line"></span><br><span class="line">#单服务器最大连接数</span><br><span class="line">max-connection-per-server=5</span><br><span class="line"></span><br><span class="line">#最小文件分片大小</span><br><span class="line">#aria2 不会分割小于 2*SIZE 字节的文件. 例如, 文件大小为 20MB, 如果 SIZE 为 10M, aria2 会把文件分成 2 段 [0-10MB) 和 [10MB-20MB), 并且使用 2 个源进行下载 (如果 --split &gt;= 2). 如果 SIZE 为 15M, 由于 2*15M &gt; 20MB, 因此 aria2 不会分割文件并使用 1 个源进行下载. 您可以增加数值的单位 K 或 M (1K = 1024, 1M = 1024K). 可以设置的值为: 1M-1024M.</span><br><span class="line">min-split-size=20M</span><br><span class="line"></span><br><span class="line">#最小分享率</span><br><span class="line">#指定分享率. 当分享率达到此选项设置的值时会完成做种. 强烈建议您将此选项设置为大于等于 1.0. 如果您想不限制分享比率, 可以设置为 0.0. 如果同时设置了 --seed-time 选项, 当任意一个条件满足时将停止做种.</span><br><span class="line">seed-ratio=1.0</span><br><span class="line"></span><br><span class="line">#启用 JSON-RPC/XML-RPC 服务器</span><br><span class="line">enable-rpc=true</span><br><span class="line"></span><br><span class="line">#接受所有远程请求</span><br><span class="line">#在 RPC 响应头增加 Access-Control-Allow-Origin 字段, 值为 * .</span><br><span class="line">rpc-allow-origin-all=true</span><br><span class="line"></span><br><span class="line">#在所有网卡上监听</span><br><span class="line">#在所有网络适配器上监听 JSON-RPC/XML-RPC 的请求, 如果设置为&quot;否&quot;, 仅监听本地网络的请求.</span><br><span class="line">rpc-listen-all=true</span><br><span class="line"></span><br><span class="line">#监听端口</span><br><span class="line">rpc-listen-port=6800</span><br><span class="line"></span><br><span class="line">#启用后台进程</span><br><span class="line">daemon=true</span><br><span class="line"></span><br><span class="line">#磁盘缓存</span><br><span class="line">#启用磁盘缓存. 如果设置为 0, 将禁用磁盘缓存. 此功能将下载的数据缓存在内存中, 最多占用此选项设置的字节数. 缓存存储由 aria2 实例创建并对所有下载共享. 由于数据以较大的单位写入并按文件的偏移重新排序, 所以磁盘缓存的一个优点是减少磁盘的 I/O. 如果调用哈希检查时并且数据缓存在内存中时, 将不需要从磁盘中读取. 大小可以包含 K 或 M (1K = 1024, 1M = 1024K).</span><br><span class="line">disk-cache=16M</span><br><span class="line"></span><br><span class="line">#文件分配方法</span><br><span class="line">#指定文件分配方法. &quot;无&quot; 不会预先分配文件空间. &quot;prealloc&quot;会在下载开始前预先分配空间. 这将会根据文件的大小需要一定的时间. 如果您使用的是较新的文件系统, 例如 ext4 (带扩展支持), btrfs, xfs 或 NTFS (仅 MinGW 构建), &quot;falloc&quot; 是最好的选择. 其几乎可以瞬间分配大(数 GiB)文件. 不要在旧的文件系统, 例如 ext3 和 FAT32 上使用 falloc, 因为与 prealloc 花费的时间相同, 并且其会阻塞 aria2 知道分配完成. 当您的系统不支持 posix_fallocate(3) 函数时, falloc 可能无法使用. &quot;trunc&quot; 使用 ftruncate(2) 系统调用或平台特定的实现将文件截取到特定的长度. 在多文件的 BitTorrent 下载中, 若某文件与其相邻的文件共享相同的分片时, 则相邻的文件也会被分配.</span><br><span class="line">file-allocation=falloc</span><br><span class="line"></span><br><span class="line">#保存状态间隔</span><br><span class="line">#每隔此选项设置的时间(秒)后会保存错误或未完成的任务到 --save-session 选项指定的文件中. 如果设置为 0, 仅当 aria2 退出时才会保存.</span><br><span class="line">save-session-interval=300</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>『下载路径』必须是一个存在的目录，aria2 不会去创建这个目录。</p>
+</blockquote>
+<p>aria2 还有一些其他设置项，这里不说了，有兴趣可以看<a href="https://aria2.github.io/manual/en/html/aria2c.html#aria2-conf" target="_blank" rel="noopener">官方说明文档</a>。</p>
+<p>在写好配置文件后，若设置了 <code>daemon=true</code> ，那么直接运行 <code>aria2c</code> 也可在后台运行。</p>
+<h2 id="使用-systemd-管理"><a href="#使用-systemd-管理" class="headerlink" title="使用 systemd 管理"></a>使用 systemd 管理</h2><p>万物皆可底裤，<code>nano /etc/systemd/system/aria2.service</code> 写入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Aria2</span><br><span class="line">After=syslog.target</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/usr/bin/aria2c</span><br><span class="line">Restart=always</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<p> 启用并运行： <code>systemctl enable aria2.service &amp;&amp; systemctl start aria2.service</code> ，这样就可以开机自启了。</p>
+<h1 id="通过-WebUI-调用-Aria2"><a href="#通过-WebUI-调用-Aria2" class="headerlink" title="通过 WebUI 调用 Aria2"></a>通过 WebUI 调用 Aria2</h1><p>比较靠谱的 Aria2 Web 管理界面有 webui-aria2, AriaNG 等，这里我选择的是 <a href="https://github.com/ziahamza/webui-aria2" target="_blank" rel="noopener">webui-aria2</a>。</p>
+<ul>
+<li>安装 nginx</li>
+</ul>
+<p><code>apt install nginx</code></p>
+<p>Nginx 的默认 web 根目录是 <code>/var/www/html</code> ，所以我选择部署 webui-aria2 到 <code>/var/www/html/webui-aria2</code> 下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /var/www/html</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/ziahamza/webui-aria2.git</span><br></pre></td></tr></table></figure>
+<p>重启 nginx： <code>systemctl restart nginx</code></p>
+<p>此时用浏览器访问 <code>[主机IP地址或域名]/webui-aria2/docs/</code>，应当能够看到 webui-aria2 的页面。</p>
+<h1 id="取回文件"><a href="#取回文件" class="headerlink" title="取回文件"></a>取回文件</h1><p>以上只是配置了 WebUI 调用 aria2 下载文件到 VPS 上，接下来设置文件取回。</p>
+<p>你可以使用 ftp 取回文件，也可以使用其他轻量级 http 服务器应用取回。</p>
+<p>这里演示使用 nginx 生成 HTTP  文件服务。</p>
+<h2 id="Nginx-搭建-HTTP-文件服务"><a href="#Nginx-搭建-HTTP-文件服务" class="headerlink" title="Nginx 搭建 HTTP 文件服务"></a>Nginx 搭建 HTTP 文件服务</h2><p>这里使用另一个端口号（7080）做文件服务器，若要访问下载目录，在浏览器输入 <code>[主机IP地址或域名]:7080</code> 访问。</p>
+<ul>
+<li>在 <code>/etc/nginx/sites-available/</code> 下新建一个站点配置</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/nginx/sites-available/</span><br><span class="line">touch aria2File <span class="comment"># 创建一个名为aria2File的站点配置</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>nano aria2File</code>，输入以下内容：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen 7080 default_server;</span><br><span class="line">        listen [::]:7080 default_server;</span><br><span class="line">        root /root/Downloads;   # 这里使用下载文件夹的绝对路径</span><br><span class="line">        server_name _;</span><br><span class="line">        auth_basic &quot;Authorization needed&quot;;</span><br><span class="line">        auth_basic_user_file /var/www/auth/auth4aria2File;  # 设置要求密码登陆</span><br><span class="line">        location / &#123;</span><br><span class="line">                # 使nginx自动生成文件列表</span><br><span class="line">                autoindex on;</span><br><span class="line">                autoindex_exact_size on;</span><br><span class="line">                autoindex_localtime on;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>然后 <code>cd /etc/nginx/sites-enabled/</code> ，创建配置文件的软链接，开启站点配置：</li>
+</ul>
+<p><code>ln -s /etc/nginx/sites-available/aria2File ./aria2File</code></p>
+<ul>
+<li>最后 <code>nano /etc/nginx/nginx.conf</code>，修改 nginx 配置文件首行的内容如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># user www-data;</span><br><span class="line">user root;  # 或者其他具有下载文件夹访问权限的用户名称</span><br></pre></td></tr></table></figure>
+<p>从而避免因默认的 <code>www-data</code> 用户无权访问下载文件夹导致的 403 错误。</p>
+<h2 id="配置访问密码"><a href="#配置访问密码" class="headerlink" title="配置访问密码"></a>配置访问密码</h2><p>上面我们在 aria2File 站点配置文件中写了一行 <code>auth_basic_user_file /var/www/auth/auth4aria2File;  # 设置要求密码登陆</code> ，所以这里我们在对应位置也要生成一个访问验证文件。</p>
+<ul>
+<li><code>apt install apache2-utils</code> 安装 apache2-utils，其包含用于生成密钥文件的工具 htpasswd 。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /var/www/auth/</span><br><span class="line"><span class="built_in">cd</span> /var/www/auth/</span><br><span class="line">htpasswd -c ./auth4aria2File <span class="variable">$USERNAME</span></span><br></pre></td></tr></table></figure>
+<p><code>$USERNAME</code> 改为你想要的登录用户名。</p>
+<p>然后根据提示设置密码，生成文件 <code>auth4aria2File</code>。</p>
+<h1 id="搭建完成"><a href="#搭建完成" class="headerlink" title="搭建完成"></a>搭建完成</h1><p><img src="/setup-aria2-and-nginx-for-download/webui-aria2.jpg" alt="webui-aria2"></p>
+<p>首次登录 webui-aria2 会提示在『设置 → 连接设置 → 密码令牌（可选）』里填写 <code>aria2.conf</code> 处设置的 rpc-secret Token 。</p>
+<p>除以上内容之外，你可能会需要设置一项 crontab 定时任务，来定期清除下载目录中的过期文件。</p>
+<p>这里简述一下：<code>crontab -e</code>，添加 <code>0 0 */4 * * rm -fr /root/Downloads/*</code> 在文件末尾，意为每隔 4 天清空一次 Download 文件夹。</p>
+<p><img src="/setup-aria2-and-nginx-for-download/loginInServer7080.jpg" alt="登录到 ServerIP:7080 会要求验证"></p>
+<p>输入『Nginx 配置访问密码』时设置的用户名和密码，在这里就可以取回文件了。</p>
+
+                    </article>
+                    
+    <blockquote class="post-license">
+        <p>
+            <strong>本文作者&nbsp;:&nbsp;Eliot</strong>
+            <br>
+            <strong>
+            
+                本文使用 : <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0)</a> 协议
+            </strong>
+            <br>
+            <strong>本文链接&nbsp;:&nbsp;</strong><a href="https://eliotjoking.me/setup-aria2-and-nginx-for-download/">https://eliotjoking.me/setup-aria2-and-nginx-for-download/</a>
+        </p>
+    </blockquote>
+
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+        var dateUpdate = Date.parse("2019-11-26");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2019-04-13T11:21:50.000Z" itemprop="datePublished">2019-04-13</time>
+
+    , 最后修改于&nbsp;<time datetime="2019-11-26T13:53:58.000Z" itemprop="dateModified">2019-11-26</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+
+
+<span class="post-tags-list mt-2">
+
+
+<a class="post-tags-list-item" href='/tags/Aria2/'>#&nbsp;Aria2</a>
+
+<a class="post-tags-list-item" href='/tags/Nginx/'>#&nbsp;Nginx</a>
+
+<a class="post-tags-list-item" href='/tags/Linux/'>#&nbsp;Linux</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                
+<div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/install-efb-v2-on-VPS/">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">在 Telegram 上实现微信收发，EHForwarderBot 搭建记录</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                        <div class="card-footer post-comment">
+                            <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://eliotjoking.me/setup-aria2-and-nginx-for-download/'; // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'https://eliotjoking.me/setup-aria2-and-nginx-for-download/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+</script>
+<script id="disqus-thread-script">
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document;
+        var s = d.createElement('script');
+        s.src = '//eliotsgithubpages.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', + new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+                        </div>
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span data-year></span>
+        <a class="footer-copyright-a" href="https://eliotjoking.me">Eliot&#39;s Blog</a>
+    </p>
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+        
+            Hosted by <a target="_blank" rel="external nofollow" href="https://pages.github.com/">GitHub Pages</a>
+        
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="noopener">Suka</a>
+    </p>
+</footer>
+
+        
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+
+
+    /* Copyright */
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.querySelector('span[data-year]')
+    
+        copyrightSince = 2018;
+        if (copyrightSince === copyrightNow) {
+            copyrightContent.textContent = copyrightNow
+        } else {
+            copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow
+        }
+    
+
+
+
+/* Cnosole Log */
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+</script>
+
+<!-- vanilla-lazyload -->
+
+    <script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+
+
+
+
+
+
+
+
+<!-- gallery.js -->
+
+
+<!-- Comment -->
+
+    
+        <script id="dsq-count-scr" src="https://eliotsgithubpages.disqus.com/count.js" async></script>
+
+    
+
+
+<!-- ### Custom Footer ### -->
+
+
+    </body>
+
+</html>

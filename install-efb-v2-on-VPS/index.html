@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+        Version: 1.3.2
+    -->
+    <script>
+window.lsVersion = "1.3.2",
+window.oldVersion = [
+    
+        
+            "0.2.0","0.0.1","0.1.0","1.0.0","1.0.1","1.1.0","1.1.1","1.2.0","1.3.0"
+        
+    
+]
+</script>
+
+    <!-- ### DNS Prefetch ### -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+<!-- busuanzi -->
+
+
+<!-- comment -->
+
+
+    <link rel="dns-prefetch" href="//disqus.com">
+    <link rel="dns-prefetch" href="//eliotsgithubpages.disqus.com">
+
+
+
+
+
+
+<!-- analytics -->
+
+
+    <link rel="dns-prefetch" href="//www.google-analytics.com">
+
+
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    <link rel="dns-prefetch" href="//www.google-analytics.com">
+
+
+
+
+
+
+    <!-- ### Preload ### -->
+    
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<!-- Title -->
+<title>在 Telegram 上实现微信收发，EHForwarderBot 搭建记录 | Eliot&#39;s Blog</title>
+
+<!-- favicon -->
+<!-- Favicons -->
+
+    <link rel="shortcut icon" type="image/ico" href="/img/favicon.ico">
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+
+
+    <link rel="icon" type="image/png" sizes="192x192" href="/img/android-chrome-192x192.png">
+
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+
+
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+
+
+<!-- Android Chrome Color -->
+
+    <meta name="theme-color" content="#fff">
+
+
+
+<meta name="format-detection" content="telephone=no">
+
+<!-- Description -->
+<meta name="description" content="EH Forwarder Bot（简称 EFB）是一个可扩展的聊天平台隧道框架，基于 Python 3。同时 EFB 配备了详尽的文档，欢迎有兴趣的朋友们开发自己的主端或从端，来支持更多的平台。EFB ">
+
+<!-- Keywords -->
+<meta name="keywords" content=", Telegram, Python, Bot">
+
+<!-- Disable Fucking Bloody Baidu Tranformation -->
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <!-- ### Import File ### -->
+    
+        <!-- spectre.css -->
+
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css">
+
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style>
+
+<!-- style.css -->
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+
+
+
+
+    <!-- Prettify Theme -->
+    
+    
+        <link rel="stylesheet" href="/css/highlight/atom-one-light.min.css">
+    
+
+
+
+    
+
+    <!-- ### Site Verification ### -->
+    
+    <meta name="google-site-verification" content="F4lIwiICu5tABWPv312QRYGKO4A6_M4YSHO1pBNATxQ" />
+
+
+
+    <!-- ### RSS ### -->
+    
+
+    <!-- ### WebApp ### -->
+    <meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="Eliot&#39;s Blog">
+<meta name="msapplication-starturl" content="https://eliotjoking.me">
+
+    <meta name="msapplication-navbutton-color" content="#fff">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Eliot&#39;s Blog">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Manifest Import -->
+
+<!-- Open Search -->
+
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="在 Telegram 上实现微信收发，EHForwarderBot 搭建记录 | Eliot&#39;s Blog">
+<meta property="og:site_name" content="Eliot&#39;s Blog">
+
+<meta property="og:locale" content="zh-CN">
+
+<meta property="og:url" content="https://eliotjoking.me/install-efb-v2-on-VPS/">
+<meta property="og:image" content="https://eliotjoking.me/img/android-chrome-192x192.png">
+
+<meta property="og:description" content="EH Forwarder Bot（简称 EFB）是一个可扩展的聊天平台隧道框架，基于 Python 3。同时 EFB 配备了详尽的文档，欢迎有兴趣的朋友们开发自己的主端或从端，来支持更多的平台。EFB ">
+
+<meta name="twitter:card" content="summary">
+
+
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2019-03-24T02:13:14.000Z">
+    <meta property="article:modified_time" content="2019-03-24T02:13:14.000Z">
+    <meta property="article:author" content="Eliot">
+    <meta property="og:article:tag" content=", Telegram, Python, Bot"> 
+
+
+
+
+
+    <!-- ### Analytics ### -->
+    
+    <!-- Google Analytics -->
+<script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-124820967-1', 'auto');
+    ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-124820967-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-124820967-1');
+</script>
+
+
+
+
+
+
+
+
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://eliotjoking.me/install-efb-v2-on-VPS/">
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://eliotjoking.me/install-efb-v2-on-VPS/",
+    "@type": "BlogPosting",
+    "logo": "https://eliotjoking.me/img/android-chrome-192x192.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://eliotjoking.me/install-efb-v2-on-VPS/"
+    },
+    "headline": "在 Telegram 上实现微信收发，EHForwarderBot 搭建记录 | Eliot&#39;s Blog",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://eliotjoking.me/img/android-chrome-192x192.png"
+    },
+    
+    "datePublished": "2019-03-24T02:13:14.000Z",
+    "dateModified": "2020-07-17T14:02:24.944Z",
+    "author": {
+        "@type": "Person",
+        "name": "Eliot",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://eliotjoking.me/img/avatar.png"
+        },
+        "description": "Everything that kills me makes me feel alive."
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Eliot&#39;s Blog",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://eliotjoking.me/img/android-chrome-192x192.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://eliotjoking.me/search/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": ", Telegram, Python, Bot",
+    "description": "EH Forwarder Bot（简称 EFB）是一个可扩展的聊天平台隧道框架，基于 Python 3。同时 EFB 配备了详尽的文档，欢迎有兴趣的朋友们开发自己的主端或从端，来支持更多的平台。EFB "
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+
+
+</head>
+
+    <body>
+        
+
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">Eliot&#39;s Blog</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                Everything that kills me makes me feel alive.
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search/" class="navbar-link">搜索</a>
+    
+    
+        <a href="/links/" class="navbar-link">友链</a>
+    
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    
+    
+
+
+<div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">在 Telegram 上实现微信收发，EHForwarderBot 搭建记录</h1>
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/img/avatar.png" alt="Eliot's Avatar">
+        <span>2019-03-24</span>
+        
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                            <div id="post-toc">
+                                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#使用前须知"><span class="post-toc-number">1.</span> <span class="post-toc-text">使用前须知</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#搭建过程"><span class="post-toc-number">2.</span> <span class="post-toc-text">搭建过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#申请-Telegram-bot"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">申请 Telegram bot</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#获取-Telegram-ID"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">获取 Telegram ID</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装-EFB-主从端"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">安装 EFB 主从端</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#创建配置文件"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">创建配置文件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#配置文件主目录"><span class="post-toc-number">2.4.1.</span> <span class="post-toc-text">配置文件主目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Telegram-主端配置文件"><span class="post-toc-number">2.4.2.</span> <span class="post-toc-text">Telegram 主端配置文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#EFB-微信从端配置文件"><span class="post-toc-number">2.4.3.</span> <span class="post-toc-text">EFB 微信从端配置文件</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#试运行"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">试运行</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用-systemd-管理"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">使用 systemd 管理</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#其他"><span class="post-toc-number">3.</span> <span class="post-toc-text">其他</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#一些我参考过的链接"><span class="post-toc-number">4.</span> <span class="post-toc-text">一些我参考过的链接</span></a></li></ol>
+                            </div>
+                        
+                    
+                    <article id="post-content">
+                        <p>EH Forwarder Bot（简称 EFB）是一个可扩展的聊天平台隧道框架，基于 Python 3。同时 EFB 配备了详尽的文档，欢迎有兴趣的朋友们开发自己的主端或从端，来支持更多的平台。EFB <a href="https://github.com/blueset/ehforwarderbot" target="_blank" rel="noopener">在 GitHub 中开放了源代码</a>，并且<a href="https://ehforwarderbot.readthedocs.io/" target="_blank" rel="noopener">在 Read The Docs 平台上发布的开发文档</a>（英文，<code>en-US</code>）。（<del>抄自奶冰大佬的博客</del></p>
+<h1 id="使用前须知"><a href="#使用前须知" class="headerlink" title="使用前须知"></a>使用前须知</h1><p>自 2016 年中旬以来，陆续有用户报告其微信网页版登录被腾讯封禁。 表现为用任何方式登录微信网页版提示「当前登录环境异常。为了你的账号安全， 暂时不能登录 Web 微信。你可以通过手机客户端或 Windows 微信登录」 或类似的提示。大部分用户会在封禁后三个月内解封，不同用户的解封耗时不同。 该封禁不影响其他客户端的登录。目前封禁的原因尚不明确。</p>
+<p>如果你对网页版登录有要求的话，请慎用此 Channel。详细的相关信息请参见 项目 Wiki 。</p>
+<h1 id="搭建过程"><a href="#搭建过程" class="headerlink" title="搭建过程"></a>搭建过程</h1><blockquote>
+<p>以 DgitalOcean Ubuntu 18.10 x86_64 Server 为例</p>
+</blockquote>
+<h2 id="申请-Telegram-bot"><a href="#申请-Telegram-bot" class="headerlink" title="申请 Telegram bot"></a>申请 Telegram bot</h2><p><strong>以下这段信息引用自 efb 作者博客:<a href="https://blog.1a23.com/2017/01/09/EFB-How-to-Send-and-Receive-Messages-from-WeChat-on-Telegram-zh-CN/" target="_blank" rel="noopener">1a23</a></strong></p>
+<blockquote>
+<p>Telegram Bot 是 EFB（Telegram 主端）的出口，也是呈献给用户的渠道。我们在这里使用了 Telegram 官方的 Bot API，以最大化利用 Telegram Bot 所提供的各种便利功能。</p>
+<p>要创建一个新的 Bot，要先向 @BotFather 发起会话。发送指令 /newbot 以启动向导。期间，你需要指定这个 Bot 的名称与用户名（用户名必须以 bot 结尾）。</p>
+<p>完毕之后 @BotFather会提供给你一个密钥（Token），妥善保存这个密钥。<strong>请注意，为保护您的隐私及信息安全， 请不要向任何人提供你的 Bot 用户名及密钥，这可能导致聊天信息泄露等各种风险。</strong></p>
+</blockquote>
+<p>接下来还要对刚刚启用的 Bot 进行进一步的配置：允许 Bot 读取非指令信息、允许将 Bot 添加进群组、以及提供指令列表。</p>
+<p>发送 <code>/setprivacy</code> 到 @BotFather，选择刚刚创建好的 Bot 用户名，然后选择 “Disable”.</p>
+<p>发送 <code>/setjoingroups</code> 到 @BotFather，选择刚刚创建好的 Bot 用户名，然后选择 “Enable”.</p>
+<p>发送 <code>/setcommands</code> 到 @BotFather，选择刚刚创建好的 Bot 用户名，然后发送<a href="https://github.com/blueset/efb-telegram-master#usage" target="_blank" rel="noopener">如下内容</a>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">help - Show commands list.</span><br><span class="line">link - Link a remote chat to a group.</span><br><span class="line">unlink_all - Unlink all remote chats from a group.</span><br><span class="line">info - Display information of the current Telegram chat.</span><br><span class="line">chat - Generate a chat head.</span><br><span class="line">extra - Access additional features from Slave Channels.</span><br><span class="line">update_info - Update the group name and profile picture.</span><br></pre></td></tr></table></figure>
+<h2 id="获取-Telegram-ID"><a href="#获取-Telegram-ID" class="headerlink" title="获取 Telegram ID"></a>获取 Telegram ID</h2><p>在 Telegram 上和 <a href="https://t.me/get_id_bot" target="_blank" rel="noopener">@get_id_bot</a> 点击 /start 即可获得你的 Telegram ID，一串数字（Chat ID）。</p>
+<h2 id="安装-EFB-主从端"><a href="#安装-EFB-主从端" class="headerlink" title="安装 EFB 主从端"></a>安装 EFB 主从端</h2><p>先滚一滚系统：<br><code>apt update &amp;&amp; apt upgrade -y</code></p>
+<p>安装所需依赖和工具：<br><code>apt install python3 python3-pip python3-pil python3-setuptools python3-numpy python3-yaml python3-requests ffmpeg libmagic-dev libwebp-dev nano screen -y</code></p>
+<p>pip 安装 efb2 主体和模块：<br><code>pip3 install ehforwarderbot efb-telegram-master efb-wechat-slave</code></p>
+<h2 id="创建配置文件"><a href="#创建配置文件" class="headerlink" title="创建配置文件"></a>创建配置文件</h2><h3 id="配置文件主目录"><a href="#配置文件主目录" class="headerlink" title="配置文件主目录"></a>配置文件主目录</h3><p><code>mkdir -p ~/.ehforwarderbot/profiles/default/</code></p>
+<p><code>nano ~/.ehforwarderbot/profiles/default/config.yaml</code> 写入以下内容:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">master_channel: blueset.telegram</span><br><span class="line">slave_channels:</span><br><span class="line">- blueset.wechat</span><br></pre></td></tr></table></figure>
+<h3 id="Telegram-主端配置文件"><a href="#Telegram-主端配置文件" class="headerlink" title="Telegram 主端配置文件"></a>Telegram 主端配置文件</h3><p><code>mkdir -p ~/.ehforwarderbot/profiles/default/blueset.telegram</code></p>
+<p><code>nano ~/.ehforwarderbot/profiles/default/blueset.telegram/config.yaml</code> 写入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">token: &quot;12345678:1a2b3c4d5e6g7h8i9j&quot;</span><br><span class="line"># &quot; &quot;内替换为你在 @BotFather 处获得的 bot token</span><br><span class="line">admins:</span><br><span class="line">- 123456789</span><br><span class="line"># - 后面的数字替换为你在 bot 处获得的 chat id</span><br></pre></td></tr></table></figure>
+<h3 id="EFB-微信从端配置文件"><a href="#EFB-微信从端配置文件" class="headerlink" title="EFB 微信从端配置文件"></a>EFB 微信从端配置文件</h3><p>参见 <a href="https://github.com/blueset/efb-wechat-slave#可选的配置文件" target="_blank" rel="noopener">https://github.com/blueset/efb-wechat-slave#可选的配置文件</a></p>
+<h2 id="试运行"><a href="#试运行" class="headerlink" title="试运行"></a>试运行</h2><p>在终端输入 <code>ehforwarderbot</code> ，应该会看到类似下图的提示：</p>
+<p><del>此处应有图</del>（好吧，我懒得再搭建一次</p>
+<p>扫码登录即可。</p>
+<blockquote>
+<p>如果你登录成功了，但是收发信息和控制 bot 有异常，那是因为目前 EFB 需要指定 python-telegram-bot\&lt;12.0.0</p>
+<p>使用 <code>pip3 install python-telegram-bot==11.1.0</code> 来指定版本安装</p>
+</blockquote>
+<h2 id="使用-systemd-管理"><a href="#使用-systemd-管理" class="headerlink" title="使用 systemd 管理"></a>使用 systemd 管理</h2><p>如果不想每次启动 efb 都手动运行的话，建议设置一个自启动脚本运行 efb2，如果不是比较了解 systemd 建议使用 screen 启动 efb 。</p>
+<p>使用 systemd 启动 efb 的话就不需要再使用 screen 了。如果已经使用 screen 运行了 efb2 请先退出（按 <code>CTRL + c</code> 键结束进程），然后再使用 systemd 运行 efb2 。</p>
+<p><code>nano /etc/systemd/system/efb2.service</code> 创建脚本，并写入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=efb2 Service</span><br><span class="line">After=network.target</span><br><span class="line">Wants=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">PIDFile=/var/run/efb2.pid</span><br><span class="line">ExecStart=/usr/local/bin/ehforwarderbot</span><br><span class="line">Restart=on-failure</span><br><span class="line">User=root</span><br><span class="line"># 用户修改为你创建配置文件的用户，这里我用的 root 用户</span><br><span class="line">Group=root</span><br><span class="line"># 用户组更改为 你创建配置文件的用户所在组，一般与用户同名 这里我用的 root 组</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<p>关于 systemd 的解释，可以参见 <a href="https://wiki.archlinux.org/index.php/Systemd" target="_blank" rel="noopener">Arch Wiki 相关内容</a></p>
+<hr>
+<p>启动 efb2：<code>systemctl start efb2.service</code></p>
+<p>打印日志文件：<code>journalctl -f -u efb2.service</code></p>
+<p>日志文件会给出一个登录二维码网页链接，类似于这样 <code>https://login.weixin.qq.com/qrcode/1a2b3c4d==</code> ，链接打开后，扫描网页上的二维码，然后确认网页登录。</p>
+<p>登录成功后按 <code>CTRL + c</code> 键退出日志打印</p>
+<p>然后设置 efb2 的开机自启动：<code>systemctl enable efb2.service</code></p>
+<p>到这里 efb2 的自启动就设置完成了，下次服务器重启就不需要再手动运行 efb 2了。</p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>因为我本身是微信的极轻度用户，一周也没有几条消息，所以 efb2 的配置过程至此对我来说算是完成了，其余的绑定会话之类的操作对我意义并不大，这里就不叙述了。</p>
+<p>另外，请注意文章的更新时间，由于 EFB 项目目前更新频繁，<del>这篇文章仅保证在发布时是可以正常搭建的（</del></p>
+<h1 id="一些我参考过的链接"><a href="#一些我参考过的链接" class="headerlink" title="一些我参考过的链接"></a>一些我参考过的链接</h1><p>[<a href="https://blog.1a23.com/2017/01/09/EFB-How-to-Send-and-Receive-Messages-from-WeChat-on-Telegram-zh-CN/" target="_blank" rel="noopener">EFB How-to: Send and Receive Messages from WeChat on Telegram (zh-CN)</a>]</p>
+<p>[<a href="https://milkice.me/2018/09/17/efb-how-to-send-and-receive-messages-from-qq-on-telegram/" target="_blank" rel="noopener">安装并使用 EFB：在 Telegram 收发 QQ 消息 - Milkice&#39;s IceBox</a>]</p>
+<p>[<a href="https://niconiconi.fun/2018/03/17/install-efb-v2/" target="_blank" rel="noopener">EH Forwarder Bot 2 安装 - 葉子</a>]</p>
+<p>[GitHub Repositories <a href="https://github.com/blueset/efb-telegram-master" target="_blank" rel="noopener">EFB Telegram 主端</a> 、 <a href="https://github.com/blueset/efb-wechat-slave" target="_blank" rel="noopener">EFB 微信从端</a>]</p>
+<p>非常感谢上面大佬的博文帮助😋</p>
+
+                    </article>
+                    
+    <blockquote class="post-license">
+        <p>
+            <strong>本文作者&nbsp;:&nbsp;Eliot</strong>
+            <br>
+            <strong>
+            
+                本文使用 : <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0)</a> 协议
+            </strong>
+            <br>
+            <strong>本文链接&nbsp;:&nbsp;</strong><a href="https://eliotjoking.me/install-efb-v2-on-VPS/">https://eliotjoking.me/install-efb-v2-on-VPS/</a>
+        </p>
+    </blockquote>
+
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+        var dateUpdate = Date.parse("2020-07-17");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2019-03-24T02:13:14.000Z" itemprop="datePublished">2019-03-24</time>
+
+    , 最后修改于&nbsp;<time datetime="2020-07-17T14:02:24.944Z" itemprop="dateModified">2020-07-17</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+
+
+<span class="post-tags-list mt-2">
+
+
+<a class="post-tags-list-item" href='/tags/Telegram/'>#&nbsp;Telegram</a>
+
+<a class="post-tags-list-item" href='/tags/Python/'>#&nbsp;Python</a>
+
+<a class="post-tags-list-item" href='/tags/Bot/'>#&nbsp;Bot</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                
+<div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+        <li class="page-item page-prev">
+            <a href="/setup-aria2-and-nginx-for-download/">
+                <div class="page-item-title"><i class="icon icon-back" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">利用 Aria2 + Nginx 搭建离线下载</div>
+            </a>
+        </li>
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/Use-rclone-mount-Google-Drive/">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">使用 rclone 挂载 Google Drive 硬盘</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                        <div class="card-footer post-comment">
+                            <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://eliotjoking.me/install-efb-v2-on-VPS/'; // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'https://eliotjoking.me/install-efb-v2-on-VPS/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+</script>
+<script id="disqus-thread-script">
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document;
+        var s = d.createElement('script');
+        s.src = '//eliotsgithubpages.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', + new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+                        </div>
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span data-year></span>
+        <a class="footer-copyright-a" href="https://eliotjoking.me">Eliot&#39;s Blog</a>
+    </p>
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+        
+            Hosted by <a target="_blank" rel="external nofollow" href="https://pages.github.com/">GitHub Pages</a>
+        
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="noopener">Suka</a>
+    </p>
+</footer>
+
+        
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+
+
+    /* Copyright */
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.querySelector('span[data-year]')
+    
+        copyrightSince = 2018;
+        if (copyrightSince === copyrightNow) {
+            copyrightContent.textContent = copyrightNow
+        } else {
+            copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow
+        }
+    
+
+
+
+/* Cnosole Log */
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+</script>
+
+<!-- vanilla-lazyload -->
+
+    <script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+
+
+
+
+
+
+
+
+<!-- gallery.js -->
+
+
+<!-- Comment -->
+
+    
+        <script id="dsq-count-scr" src="https://eliotsgithubpages.disqus.com/count.js" async></script>
+
+    
+
+
+<!-- ### Custom Footer ### -->
+
+
+    </body>
+
+</html>
