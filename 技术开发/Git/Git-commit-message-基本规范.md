@@ -1,6 +1,6 @@
 # Git commit message 基本规范
 
-> 转载至 https://wiki.zthxxx.me/wiki/技术开发/Git/Git-commit-message-基本规范/
+> 转载至 <https://wiki.zthxxx.me/wiki/技术开发/Git/Git-commit-message-基本规范/>
 
 使用 git 提交版本时，commit message 很重要，在回顾 commit log 时需要清晰的知道每次改动是什么。
 
@@ -20,8 +20,6 @@
 Include a link to the ticket, if any.
 ```
 
-
-
 简单的说就是：
 
 1. 第一行不超过 50 个字符
@@ -32,8 +30,6 @@ Include a link to the ticket, if any.
    - 如何解决的问题？
    - 会对哪方面产生影响吗？
 5. 描述信息完后空一行，close issue 或者给个相应 ticket 的链接
-
-
 
 Example:
 
@@ -47,4 +43,3 @@ fix($compile): couple of unit tests for IE9
 Closes #392
 Breaks foo.bar api, foo.baz should be used instead
 ```
-

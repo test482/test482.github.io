@@ -1,6 +1,6 @@
 # pacman auto paccache
 
-```
+```text
 [Trigger]
 Operation = Install
 Operation = Upgrade
