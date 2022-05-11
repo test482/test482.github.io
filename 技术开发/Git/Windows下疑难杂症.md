@@ -10,6 +10,6 @@
 
 * Windows 下设置 gpg 程序位置
 
-```powershell
-git config --global gpg.program "C:\Program Files (x86)\GnuPG\bin\gpg.exe"
-```
+    ```powershell
+    git config --global gpg.program "C:\Program Files (x86)\GnuPG\bin\gpg.exe"
+    ```
