@@ -1,6 +1,6 @@
 # Git commit message 基本规范
 
-> 转载至 <https://wiki.zthxxx.me/wiki/技术开发/Git/Git-commit-message-基本规范/>
+> 转载自 <https://wiki.zthxxx.me/wiki/技术开发/Git/Git-commit-message-基本规范/>
 
 使用 git 提交版本时，commit message 很重要，在回顾 commit log 时需要清晰的知道每次改动是什么。
 
