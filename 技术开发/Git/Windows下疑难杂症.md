@@ -7,3 +7,9 @@
     将其添加进系统 PATH 最前面, 以覆盖 Windows 的 ssh.
 
     在 TortoiseGit "网络” → “SSH 客户端” 处选择 openssh 目录下的 ssh.exe 以覆盖 TortoiseGit 的 SSH.
+
+* Windows 下设置 gpg 程序位置
+
+```powershell
+git config --global gpg.program "C:\Program Files (x86)\GnuPG\bin\gpg.exe"
+```
