@@ -8,9 +8,7 @@
 
 - 我安装了 pip 为什么运行报找不到可执行文件？
 
-- import module 为什么报 `ModuleNotFound`
-
-  ？
+- import module 为什么报 `ModuleNotFound`？
 
 - 为什么我用 Pycharm 能运行在 cmd 里运行不了？
 
@@ -19,6 +17,8 @@
 ## Python 是如何寻找包的
 
 现在大家的电脑上很可能不只有一个 Python，还有更多的虚拟环境，导致安装包的时候，一不小心你就忘记注意安装包的路径了。首先我们来解决找包的问题，这个问题回答起来很简单，但很多人不知道这个原理。假如你的 Python 解释器的路径是 `$path_prefix/bin/python`，那么你启动 Python 交互环境或者用这个解释器运行脚本时，会默认寻找以下位置[^1]：
+
+[^1]: 本文示例均使用 Unix 路径习惯，如果是 Windows 系统则应当做适当改动，如 `$path_prefix/bin` 应为 `$path_prefix/Scripts`
 
 1. `$path_prefix/lib`（标准库路径）
 2. `$path_prefix/lib/pythonX.Y/site-packages`（三方库路径，X.Y 是对应 Python 的主次版本号，如 3.7, 2.6）
@@ -83,7 +83,7 @@
 
 假设你的包结构如下
 
-```
+```bash
 .
 ├── main.py
 └── my_package
@@ -158,5 +158,3 @@ I'm b
 看到这里大家可以发现，关于包路径搜索最重要的就是这个`$path_prefix`路径前缀，而这个值又是从使用的 Python 解释器路径推导出来的。所以要找到包的路径，只需要知道解释器的路径就可以了，如果遇到改变包的路径，只需要通过正确的`PATH`设置，指定你想要的 Python 解释器即可。
 
 现在回到开头的三个问题，大家会解决了吗？在评论区写出你的排查步骤或解决方法。
-
-[^1]: 本文示例均使用 Unix 路径习惯，如果是 Windows 系统则应当做适当改动，如 `$path_prefix/bin` 应为 `$path_prefix/Scripts`
