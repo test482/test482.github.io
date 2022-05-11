@@ -9,6 +9,17 @@
 
 在我们自己的笔记本上时, 我们可以 `ssh -J user@177.77.77.77 dev@localhost -p 10022` 这样借助个人 VPS 作为跳板, 去访问开发机了.
 
-![Untitled](./%E5%BC%80%E5%8F%91%E6%9C%BA-%E5%B7%A5%E4%BD%8D-%E4%B8%AA%E4%BA%BAVPS%20%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E5%8F%91/Untitled.png)
+```bash
+$ cat .ssh/config
+Host vps
+    HostName 177.77.77.77
+    User user
 
-在 ssh config 里写好如上图所示, 在自己笔记本上就可以直接 ssh work-dev 连接到内网开发机了.
+Host work-dev
+    HostName localhost
+    User dev
+    Port 10022
+    proxyjump vps
+```
+
+在 ssh config 里写好如上所示, 在自己笔记本上就可以直接 ssh work-dev 连接到内网开发机了.
