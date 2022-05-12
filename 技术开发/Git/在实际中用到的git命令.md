@@ -9,9 +9,12 @@
     `git format-patch $OlderCommitHash..$NewerCommitHash`
 
     > `OlderCommitHash` 是时间早的 commit 的哈希值
+    >
     > `NewerCommitHash` 是时间更晚的 commit 的哈希值
-    > 如果使用 `--numbered-files` 选项, 则文件名只有编号, 不包含提交信息
-    > 可指定 `-o <dir>, --output-directory <dir>` 指定 patch 的存放目录
+    >
+    > `--numbered-files` 选项, 则文件名只有编号, 不包含提交信息
+    >
+    > `-o <dir>, --output-directory <dir>` 指定 patch 的存放目录
 
 3. 应用 patch
 
