@@ -1,4 +1,4 @@
-# Windows 下疑难杂症
+# Windows 可能需要安装新版 openssh
 
 * 在 GitHub 中设置了 ssh key,  `ssh -T git@github.com` 提示成功, 却始终不能 push 到远端?
 

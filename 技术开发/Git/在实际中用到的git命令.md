@@ -1,4 +1,4 @@
-# 从实际中用到的 git 命令
+# 在实际中用到的 git 命令
 
 1. 编辑未提交至 origin 的刚刚写的 commit message
 
