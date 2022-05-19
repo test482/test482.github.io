@@ -59,3 +59,9 @@
     删除远端分支:
 
     `git push origin --delete $BRANCH_NAME`
+
+7. 从 git 存储库中删除一个文件，但不想从本地文件系统中删除它
+
+    `git rm xxx.file`
+
+    `git rm -r xxxdir`
