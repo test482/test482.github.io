@@ -27,6 +27,8 @@ ExecStart=/usr/bin/ssh-agent -D -a $SSH_AUTH_SOCK
 WantedBy=default.target
 ```
 
+然后在你的 shell 初始化文件（例如 `.bashrc`）中 `export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"`,
+
 写好之后 `systemctl --user enable --now ssh-agent.service` 就可以使 ssh-agent 开机自启且在后台运行了.
 
-如果你在 windows 下, 你可能需要换到新版的 openssh, 参见[链接](/技术开发/Git/Windows下疑难杂症.md)
+如果你在 windows 下, 你可能需要换到新版的 openssh, 参见[链接](/技术开发/Git/Windows可能需要安装新版openssh.md)
