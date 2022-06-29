@@ -65,3 +65,13 @@
     `git rm --cached xxx.file`
 
     `git rm --cached -r xxxdir`
+
+8. 把现有的修改合并到上个 commit 内中
+
+    > 以便保持 commit 记录整洁
+    >
+    > 和协作中并不知道使用 squash and merge 合并 pr 的仓库管理人
+
+    `git commit --amend`
+
+    `git push --force` // 一般是强制 push 到自己的 repo, 切忌 push 到协作 repo.
