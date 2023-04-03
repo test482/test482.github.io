@@ -31,4 +31,4 @@ WantedBy=default.target
 
 写好之后 `systemctl --user enable --now ssh-agent.service` 就可以使 ssh-agent 开机自启且在后台运行了.
 
-如果你在 windows 下, 你可能需要换到新版的 openssh, 参见[链接](/技术开发/Git/Windows可能需要安装新版openssh.md)
+如果你在 windows 下, 你可能需要换到新版的 openssh, 参见[链接](技术开发/Git/use-windows-may-need-install-latest-openssh.md)
